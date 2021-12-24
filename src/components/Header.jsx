@@ -1,6 +1,6 @@
 import React from "react";
 
-function Header() {
+const Header = () => {
   return (
     <div>
       <header>
@@ -8,6 +8,6 @@ function Header() {
       </header>
     </div>
   );
-}
+};
 
 export default Header;

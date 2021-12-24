@@ -4,7 +4,7 @@ import CreateArea from "./CreateArea";
 import NotesArea from "./NotesArea";
 import Footer from "./Footer";
 
-function App() {
+const App = () => {
   return (
     <div>
       <Header />
@@ -13,6 +13,6 @@ function App() {
       <Footer />
     </div>
   );
-}
+};
 
 export default App;
