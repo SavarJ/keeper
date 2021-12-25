@@ -1,12 +1,17 @@
 import React, { useState } from "react";
-import { v4 as uuidv4 } from "uuid";
 import Header from "./Header";
 import CreateArea from "./CreateArea";
 import Footer from "./Footer";
 import Note from "./Note";
+import { v4 as uuidv4 } from "uuid";
 
+const startingNote = {
+  title: "Welcome to your notes app!",
+  content: "Click on the + button to add a note",
+  id: uuidv4(),
+};
 const App = () => {
-  const [notes, setNotes] = useState([]);
+  const [notes, setNotes] = useState([startingNote]);
   const addNote = (title, content, id) => {
     setNotes((prevNotes) => {
       return [...prevNotes, { title, content, id }];

@@ -1,10 +1,12 @@
 import React from "react";
+import HighlightIcon from "@mui/icons-material/Highlight";
 
 const Header = () => {
   return (
     <div>
       <header>
-        <h1>Keeper</h1>
+        <HighlightIcon style={{ paddingRight: "10px" }} />
+        <h1 style={{ display: "inline" }}>Keeper</h1>
       </header>
     </div>
   );
