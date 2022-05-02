@@ -13,7 +13,13 @@ const App = () => {
   const logError = (error) => {
     console.error(error);
   };
-  const [notes, setNotes] = useState([]);
+  const [notes, setNotes] = useState([
+    {
+      title: "Notes are loading...",
+      content: "Please wait... API is starting up on Heroku",
+      _id: "12345",
+    },
+  ]);
   useEffect(() => {
     getNotes().then(setNotes);
   }, []);
