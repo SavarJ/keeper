@@ -12,15 +12,51 @@ const startingNote = {
 };
 const App = () => {
   const [notes, setNotes] = useState([startingNote]);
-  const addNote = (title, content, id) => {
-    setNotes((prevNotes) => {
-      return [...prevNotes, { title, content, id }];
+  const addNote = async (title, content) => {
+    const response = await fetch("http://localhost:5000/notes", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        title,
+        content,
+      }),
     });
+    const data = await response.json();
+    if (data.statusCode === 201) {
+      const response2 = await fetch("http://localhost:5000/notes");
+      const notes = await response2.json();
+      if (notes.statusCode === 200) {
+        setNotes(notes.data);
+      } else {
+        console.log("error");
+      }
+    }
+    // setNotes((prevNotes) => {
+    //   return [...prevNotes, { title, content, id }];
+    // });
   };
-  const deleteNote = (id) => {
-    setNotes((prevNotes) => {
-      return prevNotes.filter((note) => note.id !== id);
+  const deleteNote = async (id) => {
+    const response = await fetch(`http://localhost:5000/notes/${id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
     });
+    const data = await response.json();
+    if (data.statusCode === 200) {
+      const response2 = await fetch("http://localhost:5000/notes");
+      const notes = await response2.json();
+      if (notes.statusCode === 200) {
+        setNotes(notes.data);
+      } else {
+        console.log("error");
+      }
+    }
+    // setNotes((prevNotes) => {
+    //   return prevNotes.filter((note) => note.id !== id);
+    // });
   };
   return (
     <div>

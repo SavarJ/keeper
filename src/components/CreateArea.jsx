@@ -36,9 +36,9 @@ const CreateArea = ({ addNote }) => {
         />
         <Zoom in={isExpanded}>
           <Fab
-            onClick={(event) => {
+            onClick={async (event) => {
               event.preventDefault();
-              addNote(title, content, uuidv4());
+              await addNote(title, content);
               setTitle("");
               setContent("");
             }}
