@@ -5,18 +5,21 @@ import Footer from "./Footer";
 import Note from "./Note";
 
 const App = () => {
+  const getNotes = async () => {
+    const response = await fetch(process.env.REACT_APP_API_URL);
+    const json = await response.json();
+    return json.data;
+  };
+  const logError = (error) => {
+    console.error(error);
+  };
   const [notes, setNotes] = useState([]);
   useEffect(() => {
-    const getNotes = async () => {
-      const response = await fetch("http://localhost:5000/notes");
-      const json = await response.json();
-      return json.data;
-    };
     getNotes().then(setNotes);
   }, []);
 
   const addNote = async (title, content) => {
-    const response = await fetch("http://localhost:5000/notes", {
+    const response = await fetch(process.env.REACT_APP_API_URL, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -28,18 +31,11 @@ const App = () => {
     });
     const data = await response.json();
     if (data.statusCode === 201) {
-      const response2 = await fetch("http://localhost:5000/notes");
-      const notes2 = await response2.json();
-      if (notes2.statusCode === 200) {
-        setNotes(notes2.data);
-        console.log(notes);
-      } else {
-        console.log("error");
-      }
+      getNotes().then(setNotes).catch(logError);
     }
   };
   const deleteNote = async (id) => {
-    const response = await fetch(`http://localhost:5000/notes/${id}`, {
+    const response = await fetch(`${process.env.REACT_APP_API_URL}/${id}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
@@ -47,13 +43,7 @@ const App = () => {
     });
     const data = await response.json();
     if (data.statusCode === 200) {
-      const response2 = await fetch("http://localhost:5000/notes");
-      const notes = await response2.json();
-      if (notes.statusCode === 200) {
-        setNotes(notes.data);
-      } else {
-        console.log("error");
-      }
+      getNotes().then(setNotes).catch(logError);
     }
   };
   return (
