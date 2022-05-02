@@ -1,17 +1,20 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Header from "./Header";
 import CreateArea from "./CreateArea";
 import Footer from "./Footer";
 import Note from "./Note";
-import { v4 as uuidv4 } from "uuid";
 
-const startingNote = {
-  title: "Welcome to your notes app!",
-  content: "Click on the + button to add a note",
-  id: uuidv4(),
-};
 const App = () => {
-  const [notes, setNotes] = useState([startingNote]);
+  const [notes, setNotes] = useState([]);
+  useEffect(() => {
+    const getNotes = async () => {
+      const response = await fetch("http://localhost:5000/notes");
+      const json = await response.json();
+      return json.data;
+    };
+    getNotes().then(setNotes);
+  }, []);
+
   const addNote = async (title, content) => {
     const response = await fetch("http://localhost:5000/notes", {
       method: "POST",
@@ -26,16 +29,14 @@ const App = () => {
     const data = await response.json();
     if (data.statusCode === 201) {
       const response2 = await fetch("http://localhost:5000/notes");
-      const notes = await response2.json();
-      if (notes.statusCode === 200) {
-        setNotes(notes.data);
+      const notes2 = await response2.json();
+      if (notes2.statusCode === 200) {
+        setNotes(notes2.data);
+        console.log(notes);
       } else {
         console.log("error");
       }
     }
-    // setNotes((prevNotes) => {
-    //   return [...prevNotes, { title, content, id }];
-    // });
   };
   const deleteNote = async (id) => {
     const response = await fetch(`http://localhost:5000/notes/${id}`, {
@@ -54,9 +55,6 @@ const App = () => {
         console.log("error");
       }
     }
-    // setNotes((prevNotes) => {
-    //   return prevNotes.filter((note) => note.id !== id);
-    // });
   };
   return (
     <div>
@@ -65,10 +63,10 @@ const App = () => {
       {notes.map((note) => {
         return (
           <Note
-            key={note.id}
+            key={note._id}
             title={note.title}
             content={note.content}
-            id={note.id}
+            id={note._id}
             deleteNote={deleteNote}
           />
         );

@@ -7,7 +7,7 @@ const Note = ({ title, content, deleteNote, id }) => {
       <h1>{title}</h1>
       <p>{content}</p>
       <button
-        onClick={(event) => {
+        onClick={async (event) => {
           event.preventDefault();
           deleteNote(id);
         }}

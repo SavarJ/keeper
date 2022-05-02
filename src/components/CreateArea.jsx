@@ -38,7 +38,7 @@ const CreateArea = ({ addNote }) => {
           <Fab
             onClick={async (event) => {
               event.preventDefault();
-              await addNote(title, content);
+              addNote(title, content);
               setTitle("");
               setContent("");
             }}
