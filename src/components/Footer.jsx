@@ -4,6 +4,14 @@ const Footer = () => {
   return (
     <div>
       <footer>
+        <a
+          className="footer-link"
+          href="https://jainsavar.com"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Savar Jain
+        </a>
         <p>Copyright © {getcurrentYear()}</p>
       </footer>
     </div>
